@@ -14,21 +14,50 @@
 </head>
 
     <body>
-    <nav class="navbar navbar-expand-md navbar-light bg-light border-bottom">
-        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item border-right">
-                    <a class="nav-link" href="{% url 'djangoapp:index' %}">Home</a>
-                </li>
-                <li class="nav-item border-right">
-                    <a class="nav-link" href="{% url 'djangoapp:about' %}">About Us</a>
-                </li>
-                <li class="nav-item active border-right">
-                    <a class="nav-link" href="{% url 'djangoapp:contact' %}">Contact Us</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+        <nav class="navbar navbar-expand-md navbar-light bg-light border-bottom">
+            <div class="container-fluid">
+                {% if user.is_authenticated %}
+                <ul class="navbar-nav mr-auto">
+                    <li>
+                        <h1 class="navbar-brand">Dealership Review</h3>
+                    </li>
+                    <li class="nav-item border-right border-left">
+                        <a class="nav-link" href="{% url 'djangoapp:index' %}">Home</a>
+                    </li>
+                    <li class="nav-item border-right">
+                        <a class="nav-link" href="{% url 'djangoapp:about' %}">About Us</a>
+                    </li>
+                    <li class="nav-item border-right">
+                        <a class="nav-link active" href="{% url 'djangoapp:contact' %}">Contact Us</a>
+                    </li>
+                </ul>
+                {% else %}
+                <div class="navbar-header">
+                    <h1 class="navbar-brand">Dealership Review</h3>
+                </div>
+                {% endif %}
+                <ul class="nav navbar-nav navbar-right">
+                    {% if user.is_authenticated %}
+                    <li>
+                        <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
+                        <a class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a>
+                    </li>
+                    {% else %}
+                    <li>
+                        <form class="form-inline" action="{% url 'djangoapp:login' %}" method="post">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Username" name="username" >
+                                <input type="password" class="form-control" placeholder="Password" name="psw" >
+                                <button class="btn btn-primary" type="submit">Login</button>
+                                <a class="btn btn-link" href="{% url 'djangoapp:registration' %}">Sign Up</a>
+                            </div>
+                        </form>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
 
     <div class="container">
     </br>

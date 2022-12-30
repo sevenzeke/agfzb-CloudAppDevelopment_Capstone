@@ -41,11 +41,11 @@
                 {% if user.is_authenticated %}
                 <li>
                     <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
-                    <a class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a>
+                    <a class="btn btn-link" href="{% url 'djangoapp:index' %}">Logout</a>
                 </li>
                 {% else %}
                 <li>
-                    <form class="form-inline" action="{% url 'djangoapp:login' %}" method="post">
+                    <form class="form-inline" action="{% url 'djangoapp:index' %}" method="post">
                         {% csrf_token %}
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="Username" name="username" >
@@ -63,14 +63,25 @@
     {% if user.is_authenticated %}
 
     {% else %}
-    <div class="container">
-    </br>
-    </br>
-    <h1 class="text-secondary">
-        Welcome to the best cars dealership!
-    </h1>
-    <h1 class="text-success">Sign Up Now for FREE!</h1>
-    </div>
+     <!-- Stylize Login form -->
+     <form action="{% url 'djangoapp:login' %}" method="post">
+        {% csrf_token %}
+        <div class="container"> <!--Style root div with .container class -->
+            <h1>Login</h1>
+            <div class="form-group"> <!--Style second div with .form-group class -->
+              <label for="username"><b>User Name</b></label>
+              <input id="username" class = "form-control" type="text" placeholder="Enter User Name: " name="username" required> <!--Style input with .form-control class -->
+              <label for="psw"><b>Password</b></label>
+              <input id="psw" class = "form-control" type="password"  placeholder="Enter Password: " name="psw" required> <!--Style input with .form-control class -->
+            </div>
+            {% if message %}
+              <div class="alert alert-warning"> <!--Style the message paragraph with .alert and .alert-warning class -->
+                {{ message }}
+              </div>
+            {% endif %}
+            <button class="btn btn-primary" type="submit">Login</button> <!--Style button with .btn and .btn-primary class -->
+        </div>
+    </form>
     {% endif %}
 
     <!--Add a dealer table here -->
