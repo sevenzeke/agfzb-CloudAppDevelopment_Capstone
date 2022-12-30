@@ -14,25 +14,40 @@
 </head>
 
     <body>
-    <!--Add a nav bar here -->
     <nav class="navbar navbar-expand-md navbar-light bg-light border-bottom">
         <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active border-right">
+                <li class="nav-item border-right">
                     <a class="nav-link" href="{% url 'djangoapp:index' %}">Home</a>
                 </li>
                 <li class="nav-item border-right">
                     <a class="nav-link" href="{% url 'djangoapp:about' %}">About Us</a>
                 </li>
-                <li class="nav-item border-right">
+                <li class="nav-item active border-right">
                     <a class="nav-link" href="{% url 'djangoapp:contact' %}">Contact Us</a>
                 </li>
             </ul>
         </div>
     </nav>
 
-    <!--Add a dealer table here -->
-
+    <div class="container">
+    </br>
+    <h1 class="text-dark">
+        Contact Us
+    </h1>
+    </br>
+        <table class="table table-light">
+            <tbody>
+              <tr>
+                <th scope="row">Contact No.</th>
+                <td>987654321</td>
+              </tr>
+              <tr>
+                <th scope="row">Address</th>
+                <td>United States</td>
+              </tr>
+            </tbody>
+          </table>
     </body>
 
 </html>
