@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
+#from django.views.decorators.csrf import csrf_exempt
 from .models import models
 from .restapis import *
 from django.contrib.auth import login, logout, authenticate
@@ -86,6 +87,7 @@ def get_dealerships(request):
         dealer_names = ' '.join([dealer.short_name for dealer in dealerships])
         # Return a list of dealer short name
         return HttpResponse(dealer_names)
+        #return render(request, 'djangoapp/index.html')
 
 def get_dealerships_by_state(request,state):
     if request.method == "GET":
@@ -114,6 +116,7 @@ def get_dealer_details(request,dealer_id):
 # Create a `add_review` view to submit a review
 # def add_review(request, dealer_id):
 # ...
+#@csrf_exempt
 def add_review(request, dealer_id):
     context = {}
     user = request.user
@@ -121,34 +124,34 @@ def add_review(request, dealer_id):
         if user.is_authenticated:
             url = "https://au-syd.functions.appdomain.cloud/api/v1/web/0126338a-2b94-4c58-8db4-d6f932482271/dealership-package/post-review"
             review = {
-                name:"seke",
-                dealership: 23,
-                review: "It sucks always have an issue class modules are always outdated!!!",
-                purchase: False,
-                another: "field",
-                purchase_date: "02/16/2021",
-                car_make: "",
-                car_model: "",
-                car_year: 1964
+                "name": "seke",
+                "dealership": 23,
+                "review": "It sucks always have an issue class modules are always outdated!!!",
+                "purchase": False,
+                "another": "field",
+                "purchase_date": "02/16/2021",
+                "car_make": "Audi",
+                "car_model": "Car",
+                "car_year": 1964
             }
 
-            review["name"] = "zigzag"
-            review["dealership"] = 23
-            review["review"] = "It sucks always have an issue class modules are always outdated!!!"
-            review["purchase"] = False
-            review["another"] = "field"
+            review["name"] = request.POST['name']
+            review["dealership"] = request.POST['dealership']
+            review["review"] = request.POST['review']
+            review["purchase"] = request.POST['purchase']
+            review["another"] = request.POST['another']
             review["purchase_date"] = datetime.utcnow().isoformat()
-            review["car_make"] = "car_make"
-            review["car_model"] = "car_model"
-            review["car_year"] = 2022
+            review["car_make"] = request.POST['car_make']
+            review["car_model"] = request.POST['car_model']
+            review["car_year"] = request.POST['car_year']
             json_payload = {
                 "review" : {}
             }
             json_payload["review"] = review
             response = post_request(url, json_payload, dealerId=dealer_id)
             
-            return redirect('djangoapp:index')
+            return HttpResponse(response)
         else:
-            return render(request, 'djangoapp/user_login.html', context)
+            return render(request, 'djangoapp/index.html', context)
     else:
-        return render(request, 'djangoapp/user_login.html', context)
+       return render(request, 'djangoapp/index.html', context)
