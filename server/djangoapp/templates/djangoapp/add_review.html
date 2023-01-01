@@ -62,12 +62,13 @@
 
     {% if user.is_authenticated %}
     <h3 style="margin-left: 10px; margin-top: 5px; font-weight: bold;" class="text-dark fw-bold">Add a review about {{ dealer_name }}</h3>
-    <form action="{% url 'djangoapp:add_review' dealer_id %}">
+    <form method="post" action="{% url 'djangoapp:add_review' dealer_id %}">
+        {% csrf_token %}
         <h5 style="margin-left: 10px; margin-top: 5px; font-weight: bold;" class="text-dark fw-bold">Enter the review content:</h5>
         <textarea style="margin-left: 10px; margin-bottom: 10px;" class="form-control" id="content" name="reviewcontent" rows="2" required></textarea>
         
         <div style="margin-left: 10px; margin-bottom: 10px;" class="form-check">
-        <input class="form-check-input" type="checkbox" name="purchasecheck" id="purchasecheck">
+        <input class="form-check-input" type="checkbox" name="purchasecheck" id="purchasecheck" value=false>
         <label class="form-check-label" for="purchasecheck"> Has purchased the car from {{ dealer_name }}? (Select purchased car below if checked) </label>
         </div>
         
@@ -84,7 +85,7 @@
         <input style="margin-left: 10px; width: 20%;" style="margin-left: 10px; margin-bottom: 10px;" class="date-own form-control" type="text" name="purchasedate" id="purchasedate" >
         </div>
         <div class="form-group">
-            <button style="margin-left: 10px;" type="button" class="btn btn-primary">Submit</button>
+            <input style="margin-left: 10px;" type="submit" class="btn btn-primary" value="Submit">
         </div>
     </form>
     {% else %}
